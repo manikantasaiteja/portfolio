@@ -71,9 +71,24 @@
     .section-label{font-size:0.72rem;font-weight:700;letter-spacing:0.14em;color:var(--accent);text-transform:uppercase;margin-bottom:10px;}
     .section-heading{font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:900;letter-spacing:-0.04em;margin-bottom:52px;line-height:1.1;}
     #projects{background:var(--bg2);}
-    .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-    .project-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition);display:flex;flex-direction:column;}
+    .projects-carousel-wrap{overflow:hidden;position:relative;padding:20px 0;}
+    .projects-carousel-wrap::before,
+    .projects-carousel-wrap::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:2;pointer-events:none;}
+    .projects-carousel-wrap::before{left:0;background:linear-gradient(90deg,var(--bg2),transparent);}
+    .projects-carousel-wrap::after{right:0;background:linear-gradient(270deg,var(--bg2),transparent);}
+    .projects-track{display:flex;gap:20px;animation:scroll-projects 40s linear infinite;width:max-content;transition:transform 0.5s ease;}
+    .projects-carousel-wrap:hover .projects-track{animation-play-state:paused;}
+    .projects-track.manual-control{animation:none;}
+    @keyframes scroll-projects{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+    .project-card{flex:0 0 380px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition);display:flex;flex-direction:column;}
     .project-card:hover{transform:translateY(-8px);box-shadow:0 24px 56px rgba(0,0,0,0.35);border-color:rgba(91,141,238,0.4);}
+    .carousel-controls{display:flex;justify-content:center;align-items:center;gap:16px;margin-top:32px;}
+    .carousel-nav{display:flex;gap:10px;align-items:center;}
+    .carousel-dot{width:10px;height:10px;border-radius:50%;background:var(--border);border:2px solid var(--border);cursor:pointer;transition:all var(--transition);}
+    .carousel-dot:hover{background:var(--text3);border-color:var(--text3);}
+    .carousel-dot.active{background:var(--accent);border-color:var(--accent);width:32px;border-radius:5px;}
+    .carousel-btn{background:var(--bg3);border:1px solid var(--border);border-radius:9px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem;color:var(--text2);transition:all var(--transition);}
+    .carousel-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
     .project-img-wrap{overflow:hidden;height:220px;background:var(--bg3);}
     .project-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.55s ease;}
     .project-card:hover .project-img-wrap img{transform:scale(1.07);}
@@ -101,8 +116,8 @@
     .contact-email:hover{opacity:0.75;}
     .contact-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
     footer{padding:28px 6%;text-align:center;border-top:1px solid var(--border);font-size:0.82rem;color:var(--text3);}
-    @media(max-width:900px){.hero-inner{grid-template-columns:1fr;gap:48px;}.hero-image-wrap{order:-1;}.hero-img{width:240px;height:240px;}.projects-grid{grid-template-columns:1fr 1fr;}.about-grid{grid-template-columns:1fr;gap:44px;}}
-    @media(max-width:640px){.nav-hamburger{display:flex;}.nav-links{display:none;position:fixed;top:66px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);flex-direction:column;padding:16px 6%;gap:4px;}.nav-links.open{display:flex;}.nav-links a{width:100%;padding:12px 16px;}.projects-grid{grid-template-columns:1fr;}.hero-stats{gap:20px;flex-wrap:wrap;}.hero-cta{flex-direction:column;}.btn{justify-content:center;}.skills-grid{grid-template-columns:1fr;}}
+    @media(max-width:900px){.hero-inner{grid-template-columns:1fr;gap:48px;}.hero-image-wrap{order:-1;}.hero-img{width:240px;height:240px;}.about-grid{grid-template-columns:1fr;gap:44px;}}
+    @media(max-width:640px){.nav-hamburger{display:flex;}.nav-links{display:none;position:fixed;top:66px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);flex-direction:column;padding:16px 6%;gap:4px;}.nav-links.open{display:flex;}.nav-links a{width:100%;padding:12px 16px;}.hero-stats{gap:20px;flex-wrap:wrap;}.hero-cta{flex-direction:column;}.btn{justify-content:center;}.skills-grid{grid-template-columns:1fr;}}
   
     /* ── ENTRANCE ANIMATIONS ── */
     @keyframes fadeUp{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
@@ -164,8 +179,7 @@
   <section class="hero" id="home">
     <div class="hero-inner">
       <div class="hero-content">
-        <div class="hero-badge">Available for opportunities</div>
-        <h1 class="hero-heading">Hello, I'm Teja <span class="wave">&#x1F44B;</span></h1>
+        <h1 class="hero-heading">Hello, I'm Teja</h1>
         <p class="hero-subtitle"><span class="typing-text" id="typing"></span><span class="cursor"></span></p>
         <p class="hero-bio">I'm a UX/UI Designer focused on simplifying complex systems through user research, wireframing, and Figma prototyping, with a strong foundation in engineering and data-driven design.</p>
         <div class="hero-cta">
@@ -201,43 +215,17 @@
     <div class="section-inner">
       <div class="section-label reveal">MY WORK</div>
       <h2 class="section-heading reveal">Selected Projects</h2>
-      <div class="projects-grid stagger">
-        <article class="project-card">
-          <div class="project-img-wrap"><img src="trackr/images/trackrimagestrackr-hero.png.png" alt="Trackr" loading="lazy" /></div>
-          <div class="project-body">
-            <div class="project-tags"><span class="tag">UX Design</span><span class="tag">Web Platform</span><span class="tag">UI Design</span></div>
-            <h3 class="project-title">Trackr</h3>
-            <p class="project-desc">A web-based job application tracker helping users organize applications, interviews, and outcomes in one centralized dashboard.</p>
-            <a href="trackr/index.html" class="project-link">View Case Study &#8594;</a>
-          </div>
-        </article>
-        <article class="project-card">
-          <div class="project-img-wrap"><img src="flyhigh/images/flyhike-hero.png.png" alt="FlyHike" loading="lazy" /></div>
-          <div class="project-body">
-            <div class="project-tags"><span class="tag">UX Research</span><span class="tag">UI Design</span><span class="tag">Travel</span></div>
-            <h3 class="project-title">FlyHike</h3>
-            <p class="project-desc">A unified travel booking platform simplifying flights, buses, trains and hotels in one seamless experience.</p>
-            <a href="flyhigh/index.html" class="project-link">View Case Study &#8594;</a>
-          </div>
-        </article>
-        <article class="project-card">
-          <div class="project-img-wrap"><img src="crew-campus/images/v92_35.png" alt="Crew Campus" loading="lazy" /></div>
-          <div class="project-body">
-            <div class="project-tags"><span class="tag">UX Design</span><span class="tag">Student App</span></div>
-            <h3 class="project-title">Crew Campus</h3>
-            <p class="project-desc">A student dashboard app centralizing campus services like Mensa, transport, events, payments and more.</p>
-            <a href="crew-campus/index.html" class="project-link">View Case Study &#8594;</a>
-          </div>
-        </article>
-        <article class="project-card">
-          <div class="project-img-wrap"><img src="watermanagement/images/water-hero.png.jpg" alt="Smart Water Management" loading="lazy" /></div>
-          <div class="project-body">
-            <div class="project-tags"><span class="tag">IoT</span><span class="tag">UX Design</span><span class="tag">Research</span></div>
-            <h3 class="project-title">Smart Water Management</h3>
-            <p class="project-desc">An IoT-based system monitoring water flow, detecting leaks and providing real-time quality insights.</p>
-            <a href="watermanagement/index.html" class="project-link">View Case Study &#8594;</a>
-          </div>
-        </article>
+      <div class="projects-carousel-wrap">
+        <div class="projects-track" id="projectsTrack">
+          <!-- Projects will be dynamically loaded here (duplicated for seamless loop) -->
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn" id="prevBtn" aria-label="Previous project">&#8249;</button>
+        <div class="carousel-nav" id="carouselNav">
+          <!-- Dots will be generated here -->
+        </div>
+        <button class="carousel-btn" id="nextBtn" aria-label="Next project">&#8250;</button>
       </div>
     </div>
   </section>
@@ -292,6 +280,133 @@
   </footer>
 
   <script>
+    // Case Studies Data
+    const caseStudies = [
+      {
+        title: 'Trackr',
+        image: 'trackr/images/trackrimagestrackr-hero.png.png',
+        tags: ['UX Design', 'Web Platform', 'UI Design'],
+        description: 'A web-based job application tracker helping users organize applications, interviews, and outcomes in one centralized dashboard.',
+        link: 'trackr/index.html'
+      },
+      {
+        title: 'FlyHike',
+        image: 'flyhigh/images/flyhike-hero.png.png',
+        tags: ['UX Research', 'UI Design', 'Travel'],
+        description: 'A unified travel booking platform simplifying flights, buses, trains and hotels in one seamless experience.',
+        link: 'flyhigh/index.html'
+      },
+      {
+        title: 'Crew Campus',
+        image: 'crew-campus/images/v92_35.png',
+        tags: ['UX Design', 'Student App'],
+        description: 'A student dashboard app centralizing campus services like Mensa, transport, events, payments and more.',
+        link: 'crew-campus/index.html'
+      },
+      {
+        title: 'Smart Water Management',
+        image: 'watermanagement/images/water-hero.png.jpg',
+        tags: ['IoT', 'UX Design', 'Research'],
+        description: 'An IoT-based system monitoring water flow, detecting leaks and providing real-time quality insights.',
+        link: 'watermanagement/index.html'
+      }
+    ];
+
+    // Generate Project Cards (duplicate for seamless loop)
+    const projectsTrack = document.getElementById('projectsTrack');
+    const carouselNav = document.getElementById('carouselNav');
+    let currentIndex = 0;
+    let isManualControl = false;
+    let manualTimeout;
+    
+    function createProjectCard(project) {
+      const card = document.createElement('article');
+      card.className = 'project-card';
+      
+      const tagsHTML = project.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+      
+      card.innerHTML = `
+        <div class="project-img-wrap"><img src="${project.image}" alt="${project.title}" loading="lazy" /></div>
+        <div class="project-body">
+          <div class="project-tags">${tagsHTML}</div>
+          <h3 class="project-title">${project.title}</h3>
+          <p class="project-desc">${project.description}</p>
+          <a href="${project.link}" class="project-link">View Case Study &#8594;</a>
+        </div>
+      `;
+      
+      return card;
+    }
+    
+    // Add projects twice for seamless infinite loop
+    caseStudies.forEach(project => {
+      projectsTrack.appendChild(createProjectCard(project));
+    });
+    caseStudies.forEach(project => {
+      projectsTrack.appendChild(createProjectCard(project));
+    });
+
+    // Generate navigation dots
+    caseStudies.forEach((_, index) => {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot';
+      if (index === 0) dot.classList.add('active');
+      dot.setAttribute('aria-label', `Go to project ${index + 1}`);
+      dot.addEventListener('click', () => goToSlide(index));
+      carouselNav.appendChild(dot);
+    });
+
+    // Carousel navigation functions
+    function goToSlide(index) {
+      currentIndex = index;
+      updateCarousel();
+      activateManualControl();
+    }
+
+    function updateCarousel() {
+      const cardWidth = 380 + 20; // card width + gap
+      const offset = -(currentIndex * cardWidth);
+      projectsTrack.style.transform = `translateX(${offset}px)`;
+      
+      // Update active dot
+      document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentIndex);
+      });
+    }
+
+    function activateManualControl() {
+      isManualControl = true;
+      projectsTrack.classList.add('manual-control');
+      
+      clearTimeout(manualTimeout);
+      manualTimeout = setTimeout(() => {
+        isManualControl = false;
+        projectsTrack.classList.remove('manual-control');
+      }, 10000); // Resume auto-scroll after 10 seconds
+    }
+
+    // Previous/Next buttons
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + caseStudies.length) % caseStudies.length;
+      updateCarousel();
+      activateManualControl();
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % caseStudies.length;
+      updateCarousel();
+      activateManualControl();
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        document.getElementById('prevBtn').click();
+      } else if (e.key === 'ArrowRight') {
+        document.getElementById('nextBtn').click();
+      }
+    });
+
     const html = document.documentElement;
     const toggle = document.getElementById('themeToggle');
     
