@@ -1,6 +1,4 @@
-// UI Enhancements JavaScript
-// Handles scroll progress, back to top, and intersection observer animations
-
+// UI Enhancements for Trackr Case Study
 document.addEventListener('DOMContentLoaded', function() {
     
     // ═══════════════════════════════════════════════════════════════
@@ -9,24 +7,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const scrollProgress = document.getElementById('scrollProgress');
     
     function updateScrollProgress() {
-        const windowHeight = window.innerHeight;
-        const documentHeight = document.documentElement.scrollHeight;
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercentage = (scrollTop / scrollHeight) * 100;
         
-        // Calculate scroll percentage
-        const scrollPercentage = (scrollTop / (documentHeight - windowHeight)) * 100;
-        
-        // Update progress bar width
         if (scrollProgress) {
             scrollProgress.style.width = scrollPercentage + '%';
         }
     }
     
-    // Update on scroll
     window.addEventListener('scroll', updateScrollProgress);
-    
-    // Initial update
-    updateScrollProgress();
     
     
     // ═══════════════════════════════════════════════════════════════
@@ -37,8 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (backToTopButton) {
         backToTopButton.addEventListener('click', function(e) {
             e.preventDefault();
-            
-            // Smooth scroll to top
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
@@ -56,152 +44,133 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Initial state
+        // Initially hide the button
         backToTopButton.style.opacity = '0';
         backToTopButton.style.pointerEvents = 'none';
-        backToTopButton.style.transition = 'opacity 0.3s ease';
     }
     
     
     // ═══════════════════════════════════════════════════════════════
-    // INTERSECTION OBSERVER FOR SECTION ANIMATIONS
-    // ═══════════════════════════════════════════════════════════════
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-    
-    const sectionObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('section-visible');
-                
-                // Add stagger animation to child elements
-                const children = entry.target.querySelectorAll('.section-text, .subsection-title, .survey-stat-card, .finding-card, .persona-card, .affinity-card, .takeaway-card');
-                children.forEach((child, index) => {
-                    setTimeout(() => {
-                        child.style.opacity = '1';
-                        child.style.transform = 'translateY(0)';
-                    }, index * 100);
-                });
-            }
-        });
-    }, observerOptions);
-    
-    // Observe all content sections
-    const contentSections = document.querySelectorAll('.content-section');
-    contentSections.forEach(section => {
-        sectionObserver.observe(section);
-        
-        // Set initial state for child elements
-        const children = section.querySelectorAll('.section-text, .subsection-title, .survey-stat-card, .finding-card, .persona-card, .affinity-card, .takeaway-card');
-        children.forEach(child => {
-            child.style.opacity = '0';
-            child.style.transform = 'translateY(20px)';
-            child.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        });
-    });
-    
-    
-    // ═══════════════════════════════════════════════════════════════
-    // PARALLAX EFFECT FOR ORBS (OPTIONAL - MOUSE MOVEMENT)
+    // PARALLAX ORB MOVEMENT
     // ═══════════════════════════════════════════════════════════════
     const orbs = document.querySelectorAll('.orb');
     
-    document.addEventListener('mousemove', function(e) {
-        const mouseX = e.clientX / window.innerWidth;
-        const mouseY = e.clientY / window.innerHeight;
+    function moveOrbs() {
+        const scrollY = window.pageYOffset;
         
         orbs.forEach((orb, index) => {
-            const speed = (index + 1) * 20;
-            const x = (mouseX - 0.5) * speed;
-            const y = (mouseY - 0.5) * speed;
+            const speed = 0.1 + (index * 0.05); // Different speeds for each orb
+            const yPos = scrollY * speed;
+            orb.style.transform = `translateY(${yPos}px)`;
+        });
+    }
+    
+    window.addEventListener('scroll', moveOrbs);
+    
+    
+    // ═══════════════════════════════════════════════════════════════
+    // SMOOTH SCROLL FOR ALL ANCHOR LINKS
+    // ═══════════════════════════════════════════════════════════════
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
             
-            orb.style.transform = `translate(${x}px, ${y}px)`;
+            // Skip if it's just "#" (like back to top button)
+            if (href === '#') {
+                return;
+            }
+            
+            e.preventDefault();
+            const target = document.querySelector(href);
+            
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         });
     });
     
     
     // ═══════════════════════════════════════════════════════════════
-    // SECTION NUMBERS REMOVED AS PER USER REQUEST
+    // INTERSECTION OBSERVER FOR FADE-IN ANIMATIONS
     // ═══════════════════════════════════════════════════════════════
-    // Section number functionality has been removed
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
     
-    
-    // ═══════════════════════════════════════════════════════════════
-    // SMOOTH REVEAL ANIMATION FOR CARDS
-    // ═══════════════════════════════════════════════════════════════
-    const cardObserver = new IntersectionObserver(function(entries) {
+    const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
             }
         });
-    }, {
-        threshold: 0.1
-    });
+    }, observerOptions);
     
-    // Observe workflow cards
-    const workflowCards = document.querySelectorAll('.workflow-card');
-    workflowCards.forEach((card, index) => {
-        // Set initial state
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-        
-        cardObserver.observe(card);
+    // Observe all content sections
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(30px)';
+        section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        observer.observe(section);
     });
     
     
     // ═══════════════════════════════════════════════════════════════
-    // ENHANCED HOVER EFFECTS
+    // CUSTOM CURSOR TRAIL EFFECT (Optional Enhancement)
     // ═══════════════════════════════════════════════════════════════
+    let cursorTrail = [];
+    const trailLength = 5;
     
-    // Add ripple effect to buttons
-    const buttons = document.querySelectorAll('.try-design-button, .fab');
-    buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-            
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.classList.add('ripple-effect');
-            
-            this.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        });
+    function createCursorDot() {
+        const dot = document.createElement('div');
+        dot.style.position = 'fixed';
+        dot.style.width = '8px';
+        dot.style.height = '8px';
+        dot.style.borderRadius = '50%';
+        dot.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+        dot.style.pointerEvents = 'none';
+        dot.style.zIndex = '9998';
+        dot.style.opacity = '0';
+        dot.style.transition = 'opacity 0.3s ease';
+        document.body.appendChild(dot);
+        return dot;
+    }
+    
+    // Initialize cursor trail dots
+    for (let i = 0; i < trailLength; i++) {
+        cursorTrail.push(createCursorDot());
+    }
+    
+    let mouseX = 0;
+    let mouseY = 0;
+    let currentIndex = 0;
+    
+    document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
     });
     
-    // Add ripple effect styles dynamically
-    const style = document.createElement('style');
-    style.textContent = `
-        .ripple-effect {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: ripple-animation 0.6s ease-out;
-            pointer-events: none;
-        }
+    function animateCursorTrail() {
+        const dot = cursorTrail[currentIndex];
+        dot.style.left = mouseX + 'px';
+        dot.style.top = mouseY + 'px';
+        dot.style.opacity = '0.6';
         
-        @keyframes ripple-animation {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-    `;
-    document.head.appendChild(style);
+        setTimeout(() => {
+            dot.style.opacity = '0';
+        }, 300);
+        
+        currentIndex = (currentIndex + 1) % trailLength;
+        
+        requestAnimationFrame(animateCursorTrail);
+    }
+    
+    // Start cursor trail animation
+    animateCursorTrail();
     
     
     // ═══════════════════════════════════════════════════════════════
@@ -210,13 +179,20 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Throttle scroll events for better performance
     let scrollTimeout;
+    let lastScrollY = window.pageYOffset;
+    
     window.addEventListener('scroll', function() {
         if (scrollTimeout) {
             window.cancelAnimationFrame(scrollTimeout);
         }
         
         scrollTimeout = window.requestAnimationFrame(function() {
-            updateScrollProgress();
+            const currentScrollY = window.pageYOffset;
+            
+            // Only update if scroll position changed significantly
+            if (Math.abs(currentScrollY - lastScrollY) > 5) {
+                lastScrollY = currentScrollY;
+            }
         });
     }, { passive: true });
     
@@ -225,5 +201,5 @@ document.addEventListener('DOMContentLoaded', function() {
     // CONSOLE MESSAGE
     // ═══════════════════════════════════════════════════════════════
     console.log('%c✨ Trackr UI Enhancements Loaded', 'color: #667eea; font-size: 16px; font-weight: bold;');
-    console.log('%cDesigned & Developed by Manikanta Sai Teja Gundavarapu', 'color: #764ba2; font-size: 12px;');
+    console.log('%cDesigned & Developed by Manikanta Sai Teja', 'color: #764ba2; font-size: 12px;');
 });
