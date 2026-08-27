@@ -65,14 +65,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Add parallax effect to background screens
+    // Store base transforms so we don't concatenate on every scroll event
+    const bgScreens = document.querySelectorAll('.bg-screen');
+    const baseTransforms = Array.from(bgScreens).map(screen =>
+        getComputedStyle(screen).transform === 'none' ? '' : getComputedStyle(screen).transform
+    );
+
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
-        const bgScreens = document.querySelectorAll('.bg-screen');
-        
+
         bgScreens.forEach((screen, index) => {
             const speed = 0.5 + (index * 0.1);
             const yPos = -(scrolled * speed);
-            screen.style.transform += ` translateY(${yPos}px)`;
+            screen.style.transform = `${baseTransforms[index]} translateY(${yPos}px)`;
         });
     });
 
