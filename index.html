@@ -78,7 +78,10 @@
       background: radial-gradient(circle, rgba(167,139,250,0.08) 0%, transparent 65%);
     }
     [data-theme="light"] .hero-heading { color: var(--text); }
-    [data-theme="light"] .hero-image-wrap::after { background: var(--navy); }
+    [data-theme="light"] .hero-image-wrap::before {
+      background: radial-gradient(circle, rgba(108,99,255,0.15) 0%, rgba(139,92,246,0.08) 50%, transparent 70%);
+    }
+    [data-theme="light"] .hero-ring::after { background: var(--navy); }
     [data-theme="light"] .project-title { color: var(--text); }
     [data-theme="light"] .section-heading { color: var(--text); }
     [data-theme="light"] .about-text h2 { color: var(--text); }
@@ -362,24 +365,76 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      width: clamp(280px, 32vw, 440px);
+      height: clamp(280px, 32vw, 440px);
     }
+
+    /* outer glow */
     .hero-image-wrap::before {
       content: '';
       position: absolute;
-      inset: -32px;
+      inset: -20px;
       border-radius: 50%;
-      background: conic-gradient(from 0deg, var(--accent), #8b5cf6, #06b6d4, var(--accent));
-      animation: spin 8s linear infinite;
-      opacity: 0.4;
+      background: radial-gradient(circle, rgba(108,99,255,0.25) 0%, rgba(139,92,246,0.12) 50%, transparent 70%);
+      animation: glowPulse 3s ease-in-out infinite;
+      pointer-events: none;
     }
-    .hero-image-wrap::after {
-      content: '';
+    @keyframes glowPulse {
+      0%,100% { opacity: 0.7; transform: scale(1); }
+      50%      { opacity: 1;   transform: scale(1.06); }
+    }
+
+    /* spinning dashed orbit */
+    .hero-orbit {
       position: absolute;
       inset: -28px;
       border-radius: 50%;
+      border: 2px dashed rgba(108,99,255,0.35);
+      animation: spin 18s linear infinite;
+      pointer-events: none;
+    }
+    /* orbit dot */
+    .hero-orbit::before {
+      content: '';
+      position: absolute;
+      top: -5px; left: 50%;
+      transform: translateX(-50%);
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 12px 4px rgba(108,99,255,0.6);
+    }
+    .hero-orbit::after {
+      content: '';
+      position: absolute;
+      bottom: -5px; left: 50%;
+      transform: translateX(-50%);
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #06b6d4;
+      box-shadow: 0 0 10px 3px rgba(6,182,212,0.55);
+    }
+
+    /* inner gradient border ring */
+    .hero-ring {
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--accent), #8b5cf6, #06b6d4, var(--accent2), var(--accent));
+      animation: spin 6s linear infinite;
+      pointer-events: none;
+    }
+    .hero-ring::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
       background: var(--navy);
     }
+    [data-theme="light"] .hero-ring::after { background: var(--navy); }
+
     @keyframes spin { to { transform: rotate(360deg); } }
+
     .hero-img {
       width: clamp(240px, 28vw, 380px);
       height: clamp(240px, 28vw, 380px);
@@ -388,7 +443,7 @@
       object-position: top center;
       position: relative;
       z-index: 1;
-      border: 3px solid var(--navy2);
+      display: block;
       transition: transform var(--tr);
       animation: floatY 5s ease-in-out infinite;
     }
@@ -809,7 +864,9 @@
         </div>
       </div>
       <div class="hero-image-wrap">
-        <img src="https://lh3.googleusercontent.com/d/1yKQyTbh4qRWd8DdRZ279RbUvQQ3BJUXC" alt="Manikanta Sai Teja" class="hero-img" loading="eager" />
+        <div class="hero-orbit"></div>
+        <div class="hero-ring"></div>
+        <img src="https://lh3.googleusercontent.com/d/1vxzMdn4Hn3j2TM8ZMPurkIIuGpPqQtgC" alt="Manikanta Sai Teja" class="hero-img" loading="eager" />
       </div>
     </div>
   </section>
