@@ -224,7 +224,7 @@ img { max-width: 100%; display: block; }
 }
 .showcase-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(9, 1fr);
   gap: 24px;
   max-width: 1400px;
   margin: 0 auto;
@@ -588,7 +588,7 @@ img { max-width: 100%; display: block; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
-  .showcase-grid        { grid-template-columns: repeat(3, 1fr); }
+  .showcase-grid        { grid-template-columns: repeat(5, 1fr); }
   .survey-findings-grid { grid-template-columns: repeat(3, 1fr); }
   .ui-showcase          { grid-template-columns: repeat(2, 1fr); }
   .affinity-grid        { grid-template-columns: repeat(2, 1fr); }
