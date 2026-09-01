@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sai Teja — UX/UI Designer</title>
+  <title>Sai Teja - UX/UI Designer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -49,7 +49,7 @@
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
 
-    /* ── THEME TOGGLE ── */
+    /* -- THEME TOGGLE -- */
     .theme-toggle {
       background: rgba(255,255,255,0.07);
       border: 1px solid var(--border);
@@ -65,7 +65,7 @@
     }
     .theme-toggle:hover { background: rgba(108,99,255,0.15); color: var(--text); }
 
-    /* light mode — hero grid bg uses lighter tint */
+    /* light mode - hero grid bg uses lighter tint */
     [data-theme="light"] .hero::before {
       background-image:
         linear-gradient(rgba(108,99,255,0.08) 1px, transparent 1px),
@@ -166,7 +166,7 @@
       background: var(--text2); border-radius: 2px; transition: var(--tr);
     }
 
-    /* ── HERO ── */
+    /* -- HERO -- */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -450,7 +450,7 @@
     .hero-img:hover { transform: scale(1.04); animation-play-state: paused; }
     @keyframes floatY { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-14px);} }
 
-    /* ── MARQUEE ── */
+    /* -- MARQUEE -- */
     .marquee-wrap {
       overflow: hidden;
       border-top: 1px solid var(--border);
@@ -485,7 +485,7 @@
       flex-shrink: 0;
     }
 
-    /* ── SECTIONS ── */
+    /* -- SECTIONS -- */
     section { padding: 100px 6%; }
     .section-inner { max-width: 1400px; margin: 0 auto; width: 100%; }
     .section-label {
@@ -505,72 +505,173 @@
       color: #fff;
     }
 
-    /* ── PROJECTS ── */
-    #projects { background: var(--navy2); }
-    .projects-carousel-wrap {
-      overflow: hidden;
-      position: relative;
-      padding: 24px 0;
-    }
-    .projects-carousel-wrap::before,
-    .projects-carousel-wrap::after {
-      content: '';
-      position: absolute;
-      top: 0; bottom: 0;
-      width: 100px;
-      z-index: 2;
-      pointer-events: none;
-    }
-    .projects-carousel-wrap::before { left: 0; background: linear-gradient(90deg, var(--navy2), transparent); }
-    .projects-carousel-wrap::after  { right: 0; background: linear-gradient(270deg, var(--navy2), transparent); }
-    .projects-track {
-      display: flex;
-      gap: 24px;
-      animation: scroll-projects 40s linear infinite;
-      width: max-content;
-      transition: transform 0.5s ease;
-    }
-    .projects-carousel-wrap:hover .projects-track { animation-play-state: paused; }
-    .projects-track.manual-control { animation: none; }
-    @keyframes scroll-projects { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+    /* -- PROJECTS NEW -- */
+    #projects { background: var(--navy2); padding: 100px 6%; }
+    .projects-list { display: flex; flex-direction: column; gap: 48px; max-width: 1400px; margin: 0 auto; }
 
-    .project-card {
-      flex: 0 0 360px;
-      background: var(--navy3);
-      border-radius: 20px;
-      border: 1px solid var(--border);
+    .project-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-radius: 24px;
       overflow: hidden;
-      transition: transform var(--tr), box-shadow var(--tr), border-color var(--tr);
+      min-height: 480px;
+      transition: transform var(--tr), box-shadow var(--tr);
+    }
+    .project-item:nth-child(1) .project-left { background: linear-gradient(145deg, #3b5bdb, #5c7cfa); }
+    .project-item:nth-child(2) .project-left { background: linear-gradient(145deg, #1E5F74, #2a9d8f); }
+    .project-item:nth-child(3) .project-left { background: linear-gradient(145deg, #0D1B3E, #2D5BE3); }
+    .project-item:nth-child(4) .project-left { background: linear-gradient(145deg, #003d5c, #0097a7); }
+
+    .project-item:hover { transform: translateY(-6px); box-shadow: 0 32px 80px rgba(0,0,0,0.35); }
+    .project-left {
+      position: relative;
+      padding: 40px 36px 0;
       display: flex;
       flex-direction: column;
-      position: relative;
+      overflow: hidden;
+      min-height: 560px;
     }
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), #8b5cf6, #06b6d4);
-      opacity: 0;
-      transition: opacity var(--tr);
+    .project-left-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0;
     }
-    .project-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(108,99,255,0.3);
-      border-color: rgba(108,99,255,0.3);
+    .project-num {
+      font-size: 3rem;
+      font-weight: 900;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      flex-shrink: 0;
     }
-    .project-card:hover::before { opacity: 1; }
-    .project-img-wrap { overflow: hidden; height: 220px; background: var(--navy2); }
-    .project-img-wrap img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      transition: transform 0.55s ease;
+    .project-left-title {
+      font-size: clamp(1.6rem, 2.8vw, 2.6rem);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      text-align: right;
     }
-    .project-card:hover .project-img-wrap img { transform: scale(1.08); }
-    .project-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
-    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-    .tag {
-      font-size: 0.65rem;
+    .project-phones {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      margin-top: 24px;
+      padding-bottom: 20px;
+    }
+    .project-phone {
+      width: 140px;
+      height: 280px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: top center;
+      border-radius: 18px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));
+      transition: transform var(--tr);
+    }
+    .project-phone:nth-child(1) { transform: rotate(-10deg) translateY(30px); }
+    .project-phone:nth-child(2) { transform: rotate(0deg) translateY(-20px); width: 165px; height: 330px; }
+    .project-phone:nth-child(3) { transform: rotate(10deg) translateY(30px); }
+    .project-item:hover .project-phone:nth-child(1) { transform: rotate(-10deg) translateY(15px); }
+    .project-item:hover .project-phone:nth-child(2) { transform: rotate(0deg) translateY(-36px); }
+    .project-item:hover .project-phone:nth-child(3) { transform: rotate(10deg) translateY(15px); }
+
+    /* for web/desktop projects use screenshot style */
+    .project-screenshots {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+      padding: 0 0 0 0;
+      justify-content: flex-end;
+    }
+    .project-screenshot {
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .project-screenshot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* right panel */
+    .project-right {
+      background: var(--navy3);
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 1px solid var(--border);
+    }
+    [data-theme="light"] .project-right { background: #fff; }
+    .project-right-top { flex: 1; }
+    .project-right-name {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+    .project-case-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--accent2);
+      margin-bottom: 28px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: gap var(--tr), color var(--tr);
+    }
+    .project-case-link:hover { gap: 10px; color: var(--text); }
+    .project-right-phone {
+      width: 100%;
+      max-width: 220px;
+      height: 380px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: top center;
+      margin: 0 auto 28px;
+      filter: drop-shadow(0 12px 28px rgba(0,0,0,0.2));
+      transition: transform var(--tr);
+    }
+    .project-item:hover .project-right-phone { transform: translateY(-8px); }
+    .project-right-desc {
+      font-size: 0.875rem;
+      color: var(--text2);
+      line-height: 1.85;
+    }
+    .project-right-desc strong {
+      color: var(--accent2);
+      font-weight: 700;
+    }
+    .try-design-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+      color: #fff;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-top: 20px;
+      transition: all var(--tr);
+      box-shadow: 0 4px 16px rgba(108,99,255,0.35);
+      width: fit-content;
+    }
+    .try-design-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(108,99,255,0.5);
+    }
+    .project-tags-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+    .project-tags-row .tag {
+      font-size: 0.62rem;
       font-weight: 800;
       padding: 4px 12px;
       border-radius: 100px;
@@ -580,67 +681,18 @@
       text-transform: uppercase;
       border: 1px solid rgba(108,99,255,0.2);
     }
-    .project-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      margin-bottom: 10px;
-      letter-spacing: -0.02em;
-      color: #fff;
-    }
-    .project-desc {
-      font-size: 0.875rem;
-      color: var(--text2);
-      line-height: 1.75;
-      flex: 1;
-      margin-bottom: 22px;
-    }
-    .project-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.875rem;
-      font-weight: 700;
-      color: var(--accent2);
-      transition: gap var(--tr), color var(--tr);
-    }
-    .project-link:hover { gap: 12px; color: #fff; }
 
-    .carousel-controls {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      margin-top: 40px;
+    /* for web screenshots on right */
+    .project-right-screenshot {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 28px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.2);
     }
-    .carousel-nav { display: flex; gap: 8px; align-items: center; }
-    .carousel-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--border);
-      border: none;
-      cursor: pointer;
-      transition: all var(--tr);
-    }
-    .carousel-dot:hover { background: var(--text3); }
-    .carousel-dot.active { background: var(--accent); width: 28px; border-radius: 4px; }
-    .carousel-btn {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      width: 42px; height: 42px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      font-size: 1.2rem;
-      color: var(--text2);
-      transition: all var(--tr);
-    }
-    .carousel-btn:hover {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
+    .project-right-screenshot img { width: 100%; display: block; object-fit: cover; max-height: 240px; }
 
-    /* ── ABOUT ── */
+    /* -- ABOUT -- */
     #about { background: var(--navy); }
     .about-grid {
       display: grid;
@@ -709,7 +761,7 @@
       flex-shrink: 0;
     }
 
-    /* ── CONTACT ── */
+    /* -- CONTACT -- */
     #contact {
       background: var(--navy2);
       text-align: center;
@@ -755,7 +807,7 @@
     }
     .contact-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
-    /* ── FOOTER ── */
+    /* -- FOOTER -- */
     footer {
       padding: 28px 6%;
       text-align: center;
@@ -765,7 +817,7 @@
       background: var(--navy);
     }
 
-    /* ── ANIMATIONS ── */
+    /* -- ANIMATIONS -- */
     @keyframes fadeUp   { from{opacity:0;transform:translateY(28px);}  to{opacity:1;transform:translateY(0);} }
     @keyframes fadeRight{ from{opacity:0;transform:translateX(28px);}  to{opacity:1;transform:translateX(0);} }
 
@@ -794,12 +846,16 @@
     .stagger.visible>*:nth-child(7){opacity:1;transform:none;transition-delay:.47s;}
     .stagger.visible>*:nth-child(8){opacity:1;transform:none;transition-delay:.54s;}
 
-    /* ── RESPONSIVE ── */
+    /* -- RESPONSIVE -- */
     @media (max-width: 960px) {
       .hero-inner   { grid-template-columns: 1fr; gap: 52px; }
       .hero-image-wrap { order: -1; }
       .hero-img     { width: clamp(180px, 45vw, 300px); height: clamp(180px, 45vw, 300px); }
       .about-grid   { grid-template-columns: 1fr; gap: 48px; }
+      .project-item { grid-template-columns: 1fr; }
+      .project-left { padding: 36px 28px 0; min-height: 360px; }
+      .project-right { padding: 32px 28px; }
+      .project-right-phone { height: 280px; }
     }
     @media (max-width: 640px) {
       .nav-hamburger { display: flex; }
@@ -884,13 +940,122 @@
     <div class="section-inner">
       <div class="section-label reveal">MY WORK</div>
       <h2 class="section-heading reveal">Selected Projects</h2>
-      <div class="projects-carousel-wrap">
-        <div class="projects-track" id="projectsTrack"></div>
-      </div>
-      <div class="carousel-controls">
-        <button class="carousel-btn" id="prevBtn" aria-label="Previous">&#8249;</button>
-        <div class="carousel-nav" id="carouselNav"></div>
-        <button class="carousel-btn" id="nextBtn" aria-label="Next">&#8250;</button>
+      <div class="projects-list">
+
+        <!-- 01 FlyHike -->
+        <div class="project-item reveal">
+          <div class="project-left">
+            <div class="project-left-header">
+              <div class="project-num">01</div>
+              <div class="project-left-title">FlyHike</div>
+            </div>
+            <div class="project-phones">
+              <div class="project-phone" style="background-image:url('flyhigh/images/app-screen-2.png.png')"></div>
+              <div class="project-phone" style="background-image:url('flyhigh/images/app-screen-1.png.png')"></div>
+              <div class="project-phone" style="background-image:url('flyhigh/images/app-screen-3.png.png')"></div>
+            </div>
+          </div>
+          <div class="project-right">
+            <div class="project-right-top">
+              <div class="project-tags-row">
+                <span class="tag">UX Research</span>
+                <span class="tag">UI Design</span>
+                <span class="tag">Travel</span>
+              </div>
+              <div class="project-right-name">FlyHike</div>
+              <a href="flyhigh/index.html" class="project-case-link">View complete UX case study &#8594;</a>
+              <div class="project-right-phone" style="background-image:url('flyhigh/images/ui-screen-1.png.png')"></div>
+              <p class="project-right-desc">Travellers were juggling 4-5 separate apps to book flights, buses, trains and hotels, leading to missed connections and decision fatigue. Design a single unified booking experience that reduces friction end-to-end. Conducted user surveys, built affinity maps, created 3 personas, and ran 2 rounds of usability testing on Figma prototypes. Achieved a clean one-flow booking journey that reduced task completion time by an estimated 40% in prototype testing.</p>
+              <a href="https://iron-zero-17969034.figma.site/" target="_blank" rel="noopener" class="try-design-btn">&#9654; Try Design</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 02 Crew Campus -->
+        <div class="project-item reveal">
+          <div class="project-left">
+            <div class="project-left-header">
+              <div class="project-num">02</div>
+              <div class="project-left-title">Crew Campus</div>
+            </div>
+            <div class="project-phones">
+              <div class="project-phone" style="background-image:url('crew-campus/images/app2.png.png')"></div>
+              <div class="project-phone" style="background-image:url('crew-campus/images/hero.png.png')"></div>
+              <div class="project-phone" style="background-image:url('crew-campus/images/app3.png.png')"></div>
+            </div>
+          </div>
+          <div class="project-right">
+            <div class="project-right-top">
+              <div class="project-tags-row">
+                <span class="tag">UX Design</span>
+                <span class="tag">Student App</span>
+              </div>
+              <div class="project-right-name">Crew Campus</div>
+              <a href="crew-campus/index.html" class="project-case-link">View complete UX case study &#8594;</a>
+              <div class="project-right-phone" style="background-image:url('crew-campus/images/final-2.png.png')"></div>
+              <p class="project-right-desc">International students at TU Dresden were switching between 6+ disconnected apps daily for Mensa, transport, payments, complaints and events, creating friction and mental overhead. Design a single student dashboard that centralises all campus services. Mapped student journeys, ran card sorting, built 3 personas, and iterated through wireframes to a high-fidelity Figma prototype. A clean, accessible dashboard that reduced service-navigation steps from 6 apps to 1, validated through usability testing with real students.</p>
+              <a href="https://tech-mobile-82986399.figma.site/" target="_blank" rel="noopener" class="try-design-btn">&#9654; Try Design</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 03 Smart Water Management -->
+        <div class="project-item reveal">
+          <div class="project-left">
+            <div class="project-left-header">
+              <div class="project-num">03</div>
+              <div class="project-left-title">Smart Water Management</div>
+            </div>
+            <div class="project-phones">
+              <div class="project-phone" style="background-image:url('watermanagement/images/v124_100.png')"></div>
+              <div class="project-phone" style="background-image:url('watermanagement/images/v124_97.png')"></div>
+              <div class="project-phone" style="background-image:url('watermanagement/images/v124_103.png')"></div>
+            </div>
+          </div>
+          <div class="project-right">
+            <div class="project-right-top">
+              <div class="project-tags-row">
+                <span class="tag">IoT</span>
+                <span class="tag">UX Design</span>
+                <span class="tag">Research</span>
+              </div>
+              <div class="project-right-name">Smart Water Management</div>
+              <a href="watermanagement/index.html" class="project-case-link">View complete UX case study &#8594;</a>
+              <div class="project-right-phone" style="background-image:url('watermanagement/images/v139_196.png')"></div>
+              <p class="project-right-desc">Municipal water systems were losing significant volume due to undetected leaks, with no real-time visibility for residents or authorities. Design a mobile app connected to an Arduino IoT sensor system that monitors flow, detects leaks and tracks water quality. Researched user pain points via surveys, designed intuitive dashboards with GPS leak mapping and motor control, and tested with 25 participants. A fully functional IoT-integrated app enabling instant leak alerts, real-time TDS monitoring and remote motor control, cutting response time significantly.</p>
+              <a href="https://spiral-review-21805310.figma.site/" target="_blank" rel="noopener" class="try-design-btn">&#9654; Try Design</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 04 Trackr -->
+        <div class="project-item reveal">
+          <div class="project-left">
+            <div class="project-num">04</div>
+            <div class="project-left-title">Trackr</div>
+            <div class="project-screenshots">
+              <div class="project-screenshot"><img src="trackr/images/trackrimagestrackr-hero.png.png" alt="Trackr Hero" /></div>
+              <div class="project-screenshot"><img src="trackr/images/screenshot-applications.png.png" alt="Trackr Applications" /></div>
+            </div>
+          </div>
+          <div class="project-right">
+            <div class="project-right-top">
+              <div class="project-tags-row">
+                <span class="tag">UX Design</span>
+                <span class="tag">Web Platform</span>
+                <span class="tag">UI Design</span>
+              </div>
+              <div class="project-right-name">Trackr</div>
+              <a href="trackr/index.html" class="project-case-link">View complete UX case study &#8594;</a>
+              <div class="project-right-screenshot">
+                <img src="trackr/images/screenshot-menu.png.png" alt="Trackr Dashboard" />
+              </div>
+              <p class="project-right-desc">Job seekers were tracking applications across spreadsheets, email threads and sticky notes, losing track of deadlines and interview stages. Design a centralised web platform to manage the full application lifecycle in one place. Identified key user workflows through interviews, designed a clean dashboard with application stages, timeline views and status filters, then iterated based on usability feedback. A structured tracker that gives users full visibility of their job search pipeline, reducing missed follow-ups and improving application organisation.</p>
+              <a href="https://trackr.saiteja.cloud/login" target="_blank" rel="noopener" class="try-design-btn">&#9654; Try Design</a>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -903,7 +1068,7 @@
           <div class="section-label">ABOUT ME</div>
           <h2>Designing with purpose &amp; empathy</h2>
           <p>I'm a CMS (Visual Computing) master's student at TU Dresden with a passion for creating user-centered digital experiences. My background in engineering gives me a unique perspective on solving complex design challenges.</p>
-          <p>I believe great design is invisible — it guides users effortlessly without overwhelming them. Every project I take on starts with deep research and ends with a solution that genuinely improves people's lives.</p>
+          <p>I believe great design is invisible - it guides users effortlessly without overwhelming them. Every project I take on starts with deep research and ends with a solution that genuinely improves people's lives.</p>
           <div style="margin-top:32px;">
             <a href="https://drive.google.com/file/d/1EOsmWLs5AZVyM8mzoUxR2hpBrxXuzjCa/view?usp=sharing" target="_blank" rel="noopener" class="btn btn-primary">Download Resume</a>
           </div>
@@ -948,55 +1113,6 @@
   </footer>
 
   <script>
-    const caseStudies = [
-      { title:'Trackr', image:'trackr/images/trackrimagestrackr-hero.png.png', tags:['UX Design','Web Platform','UI Design'], description:'A web-based job application tracker helping users organize applications, interviews, and outcomes in one centralized dashboard.', link:'trackr/index.html' },
-      { title:'FlyHike', image:'flyhigh/images/flyhike-hero.png.png', tags:['UX Research','UI Design','Travel'], description:'A unified travel booking platform simplifying flights, buses, trains and hotels in one seamless experience.', link:'flyhigh/index.html' },
-      { title:'Crew Campus', image:'crew-campus/images/crew-campus-thumb.png', tags:['UX Design','Student App'], description:'A student dashboard app centralizing campus services like Mensa, transport, events, payments and more.', link:'crew-campus/index.html' },
-      { title:'Smart Water Management', image:'watermanagement/images/water-hero.png.jpg', tags:['IoT','UX Design','Research'], description:'An IoT-based system monitoring water flow, detecting leaks and providing real-time quality insights.', link:'watermanagement/index.html' }
-    ];
-
-    const track = document.getElementById('projectsTrack');
-    const nav   = document.getElementById('carouselNav');
-    let cur = 0, timer;
-
-    function card(p) {
-      const el = document.createElement('article');
-      el.className = 'project-card';
-      el.innerHTML = `
-        <div class="project-img-wrap"><img src="${p.image}" alt="${p.title}" loading="lazy"/></div>
-        <div class="project-body">
-          <div class="project-tags">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-          <h3 class="project-title">${p.title}</h3>
-          <p class="project-desc">${p.description}</p>
-          <a href="${p.link}" class="project-link">View Case Study &#8594;</a>
-        </div>`;
-      return el;
-    }
-    [...caseStudies,...caseStudies].forEach(p => track.appendChild(card(p)));
-
-    caseStudies.forEach((_,i) => {
-      const d = document.createElement('button');
-      d.className = 'carousel-dot' + (i===0?' active':'');
-      d.setAttribute('aria-label', `Project ${i+1}`);
-      d.addEventListener('click', () => { cur=i; update(); manual(); });
-      nav.appendChild(d);
-    });
-
-    function update() {
-      track.style.transform = `translateX(${-(cur*(360+24))}px)`;
-      document.querySelectorAll('.carousel-dot').forEach((d,i) => d.classList.toggle('active', i===cur));
-    }
-    function manual() {
-      track.classList.add('manual-control');
-      clearTimeout(timer);
-      timer = setTimeout(() => track.classList.remove('manual-control'), 10000);
-    }
-    document.getElementById('prevBtn').addEventListener('click', () => { cur=(cur-1+caseStudies.length)%caseStudies.length; update(); manual(); });
-    document.getElementById('nextBtn').addEventListener('click', () => { cur=(cur+1)%caseStudies.length; update(); manual(); });
-    document.addEventListener('keydown', e => {
-      if(e.key==='ArrowLeft') document.getElementById('prevBtn').click();
-      if(e.key==='ArrowRight') document.getElementById('nextBtn').click();
-    });
 
     // scroll reveal
     const obs = new IntersectionObserver(entries => {
@@ -1019,12 +1135,12 @@
     const themeBtn = document.getElementById('themeToggle');
     const saved = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', saved);
-    themeBtn.textContent = saved === 'dark' ? '🌙' : '☀️';
+    themeBtn.textContent = saved === 'dark' ? '🌙' : '☀️';
     themeBtn.addEventListener('click', () => {
       const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
-      themeBtn.textContent = next === 'dark' ? '🌙' : '☀️';
+      themeBtn.textContent = next === 'dark' ? '🌙' : '☀️';
     });
 
     // typing
