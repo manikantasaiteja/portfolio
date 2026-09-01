@@ -272,24 +272,43 @@ img { max-width: 100%; display: block; }
   margin-bottom: 48px;
 }
 .mobile-screens-grid {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  display: flex;
   gap: 20px;
-  max-width: 1400px;
-  margin: 0 auto;
+  animation: scrollScreens 40s linear infinite;
+  width: max-content;
 }
-.mobile-screen {
-  width: 100%;
-  height: 380px;
+.mobile-screens-gallery-wrap {
+  overflow: hidden;
+  position: relative;
+  padding: 16px 0;
+}
+.mobile-screens-gallery-wrap::before,
+.mobile-screens-gallery-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.mobile-screens-gallery-wrap::before { left: 0; background: linear-gradient(90deg, #D6E4FF, transparent); }
+.mobile-screens-gallery-wrap::after  { right: 0; background: linear-gradient(270deg, #D6E4FF, transparent); }
+.mobile-screens-gallery-wrap:hover .mobile-screens-grid { animation-play-state: paused; }
+@keyframes scrollScreens { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+.app-screen {
+  flex: 0 0 240px;
+  height: 500px;
   background-repeat: no-repeat;
   background-position: center top;
   background-size: contain;
+  background-color: transparent;
   border-radius: 16px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.mobile-screen:hover {
-  transform: translateY(-10px);
+.app-screen:hover {
+  transform: translateY(-10px) scale(1.04);
   box-shadow: 0 24px 48px rgba(45,91,227,0.2);
+  animation-play-state: paused;
 }
 .screen-1 { background-image: url("../images/v86_54.png"); }
 .screen-2 { background-image: url("../images/v86_66.png"); }
@@ -574,7 +593,7 @@ img { max-width: 100%; display: block; }
 
 /* ── FINAL GALLERY ── */
 .final-gallery {
-  background: #D6E4FF;
+  background: #EEF3FF;
   padding: 72px 6%;
   border-top: 1px solid rgba(45,91,227,0.1);
   border-bottom: 1px solid rgba(45,91,227,0.1);
@@ -592,14 +611,15 @@ img { max-width: 100%; display: block; }
   background-repeat: no-repeat;
   background-position: center top;
   background-size: contain;
+  background-color: transparent;
   border-radius: 20px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .final-screen:hover { transform: translateY(-10px); box-shadow: 0 24px 48px rgba(45,91,227,0.2); }
-.final-1 { background-image: url("../images/v92_35.png"); }
-.final-2 { background-image: url("../images/v92_39.png"); }
-.final-3 { background-image: url("../images/v92_41.png"); }
-.final-4 { background-image: url("../images/v92_37.png"); }
+.final-1 { }
+.final-2 { }
+.final-3 { }
+.final-4 { }
 
 /* ── LEARNINGS ── */
 .learnings-section {
@@ -727,8 +747,9 @@ img { max-width: 100%; display: block; }
   .hero-mobile             { padding: 0; }
   .main-mobile-screen      { width: 130px; height: 260px; }
   .bg-screen               { display: none; }
-  .mobile-screens-grid     { grid-template-columns: repeat(4, 1fr); }
+  .mobile-screens-grid     { grid-template-columns: repeat(6, 1fr); }
   .mobile-screen           { height: 260px; }
+  .app-screen              { height: 260px; }
   .content-section         { padding: 0 20px; margin: 48px auto; }
   .problem-section,
   .testing-section,
@@ -756,4 +777,5 @@ img { max-width: 100%; display: block; }
   .survey-findings-grid { grid-template-columns: repeat(2, 1fr); }
   .mobile-screens-grid  { grid-template-columns: repeat(2, 1fr); }
   .mobile-screen        { height: 200px; }
+  .app-screen           { height: 200px; }
 }
